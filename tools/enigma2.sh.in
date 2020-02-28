@@ -69,10 +69,6 @@ while : ; do
 		1)
 			/sbin/halt
 			;;
-		16)
-			echo "rescue" > /proc/stb/fp/boot_mode
-			/sbin/reboot
-			;;
 		2)
 			/sbin/reboot
 			;;

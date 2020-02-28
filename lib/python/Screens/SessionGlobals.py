@@ -45,7 +45,6 @@ class SessionGlobals(Screen):
 
 		nr_leds = SystemInfo.get("NumFrontpanelLEDs", 0)
 
-
 		if nr_leds == 1:
 			FrontpanelLed(which = 0, boolean = False, patterns = [PATTERN_OFF, PATTERN_BLINK, PATTERN_OFF, PATTERN_BLINK]).connect(combine)
 		elif nr_leds == 2:
