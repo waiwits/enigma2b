@@ -74,7 +74,7 @@ def getFFmpegVersionString():
 		version = ffmpeg[1].split("-")[0].replace("\n","")
 		return "%s" % version.split("+")[0]
 	except:
-		return _("Not Installed")
+		return ""
 
 def getKernelVersionString():
 	try:

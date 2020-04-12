@@ -49,12 +49,12 @@ class About(Screen):
 		AboutText += _("DVB driver version: ") + about.getDriverInstalledDate() + "\n"
 
 		GStreamerVersion = _("GStreamer version: ") + about.getGStreamerVersionString(cpu).replace("GStreamer","")
-		# if GStreamerVersion != "Not Installed" and GStreamerVersion != "Not Required":
 		self["GStreamerVersion"] = StaticText(GStreamerVersion)
 		AboutText += GStreamerVersion + "\n"
 
-		FFmpegVersion = _("FFmpeg version: ") + about.getFFmpegVersionString()
-		if FFmpegVersion != "Not Installed":
+		FFmpegVersion = about.getFFmpegVersionString()
+		if FFmpegVersion != "":
+			FFmpegVersion = _("FFmpeg version: ") + FFmpegVersion
 			self["FFmpegVersion"] = StaticText(FFmpegVersion)
 			AboutText += FFmpegVersion + "\n"
 
