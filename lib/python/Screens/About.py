@@ -52,6 +52,12 @@ class About(Screen):
 		self["GStreamerVersion"] = StaticText(GStreamerVersion)
 		AboutText += GStreamerVersion + "\n"
 
+		FFmpegVersion = about.getFFmpegVersionString()
+		if FFmpegVersion != "":
+			FFmpegVersion = _("FFmpeg version: ") + FFmpegVersion
+			self["FFmpegVersion"] = StaticText(FFmpegVersion)
+			AboutText += FFmpegVersion + "\n"
+
 		AboutText += _("Python version: ") + about.getPythonVersionString() + "\n"
 
 		AboutText += _("Enigma (re)starts: %d\n") % config.misc.startCounter.value
@@ -65,6 +71,8 @@ class About(Screen):
 			AboutText += fp_version + "\n"
 
 		self["FPVersion"] = StaticText(fp_version)
+		
+		AboutText += _("Flash memory free: ") + about.getFlashMemory() + "\n"
 
 		AboutText += _('Skin & Resolution: %s (%sx%s)\n') % (config.skin.primary_skin.value.split('/')[0], getDesktop(0).size().width(), getDesktop(0).size().height())
 
