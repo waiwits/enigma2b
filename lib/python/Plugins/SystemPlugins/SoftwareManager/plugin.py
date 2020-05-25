@@ -51,6 +51,11 @@ config.plugins.softwaremanager.onSetupMenu = ConfigYesNo(default=False)
 config.plugins.softwaremanager.onBlueButton = ConfigYesNo(default=False)
 config.plugins.softwaremanager.epgcache = ConfigYesNo(default=False)
 
+try:
+	screenWidth = getDesktop(0).size().width()
+except:
+	screenWidth = 720
+
 def write_cache(cache_file, cache_data):
 	try:
 		path = os.path.dirname(cache_file)
@@ -1832,7 +1837,23 @@ class PacketManager(Screen, NumericalTextInput):
 
 
 class OpkgInstaller(Screen):
-	skin = """
+	if screenWidth >= 1920:
+		skin = """
+		<screen name="OpkgInstaller" position="center,center" size="1000,670" title="Install extensions" >
+			<ePixmap pixmap="buttons/red.png" position="0,0" size="250,40" alphatest="on" />
+			<ePixmap pixmap="buttons/green.png" position="250,0" size="250,40" alphatest="on" />
+			<ePixmap pixmap="buttons/yellow.png" position="500,0" size="250,40" alphatest="on" />
+			<ePixmap pixmap="buttons/blue.png" position="750,0" size="250,40" alphatest="on" />
+			<widget source="key_red" render="Label" position="0,0" zPosition="1" size="250,40" font="Regular;30" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+			<widget source="key_green" render="Label" position="250,0" zPosition="1" size="250,40" font="Regular;30" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+			<widget source="key_yellow" render="Label" position="500,0" zPosition="1" size="250,40" font="Regular;30" halign="center" valign="center" backgroundColor="#a08500" transparent="1" />
+			<widget source="key_blue" render="Label" position="750,0" zPosition="1" size="250,40" font="Regular;30" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
+			<widget name="list" font="Regular;32" itemHeight="40" position="25,50" size="950,560" />
+			<ePixmap pixmap="div-h.png" position="0,610" zPosition="10" size="1000,2" transparent="1" alphatest="on" />
+			<widget source="introduction" render="Label" position="20,620" zPosition="10" size="950,40" halign="center" valign="center" font="Regular;32" transparent="1" shadowColor="black" shadowOffset="-1,-1" />
+		</screen>"""
+	else:
+		skin = """
 		<screen name="OpkgInstaller" position="center,center" size="550,450" title="Install extensions" >
 			<ePixmap pixmap="buttons/red.png" position="0,0" size="140,40" alphatest="on" />
 			<ePixmap pixmap="buttons/green.png" position="140,0" size="140,40" alphatest="on" />
