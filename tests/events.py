@@ -1,5 +1,6 @@
 import time
 import tests
+from Tools.Directories import fileExists
 
 recorded_events = [ ]
 
@@ -35,11 +36,17 @@ def end_log(test_name):
 
 	expected = None
 
-	try:
-		f = open(test_name + ".results", "rb")
-		expected = f.read()
-		f.close()
-	except:
+	if fileExists(test_name + ".results"):
+		try:
+			f = open(test_name + ".results", "rb")
+			expected = f.read()
+			f.close()
+		except:
+			print "NO TEST RESULT FOUND, creating new"
+			f = open(test_name + ".new_results", "wb")
+			f.write(results)
+			f.close()
+	else:
 		print "NO TEST RESULT FOUND, creating new"
 		f = open(test_name + ".new_results", "wb")
 		f.write(results)
@@ -50,7 +57,9 @@ def end_log(test_name):
 	if expected is not None:
 		print "expected:"
 		if expected != results:
-			open(test_name + ".bogus_results", "wb").write(results)
+			f = open(test_name + ".bogus_results", "wb")
+			f.write(results)
+			f.close()
 			raise tests.TestError("test data does not match")
 		else:
 			print "test compared ok"
