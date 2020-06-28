@@ -24,12 +24,9 @@ class AVSwitch:
 			return (4,3)
 		elif valstr == "16_9": # auto ... 4:3 or 16:9
 			if fileExists("/proc/stb/vmpeg/0/aspect"):
-				f = open("/proc/stb/vmpeg/0/aspect", "r")
-				if "1" in f.read(): # 4:3
-					f.close()
-					return (4,3)
-				else:
-					f.close()
+				with open("/proc/stb/vmpeg/0/aspect", "r") as f:
+					if "1" in f.read():
+						return (4,3)
 		elif valstr in ("16_9_always", "16_9_letterbox"): # 16:9
 			pass
 		elif valstr in ("16_10_letterbox", "16_10_panscan"): # 16:10
@@ -103,14 +100,13 @@ def InitAVSwitch():
 	# TRANSLATORS: (aspect ratio policy: scale as close to fullscreen as possible)
 	"scale": _("Just scale")}
 	if fileExists("/proc/stb/video/policy2_choices"):
-		f = open("/proc/stb/video/policy2_choices")
-		if "full" in f.read():
-			# TRANSLATORS: (aspect ratio policy: display as fullscreen, even if the content aspect ratio does not match the screen ratio)
-			policy2_choices.update({"full": _("Full screen")})
-		elif "auto" in f.read():
-			# TRANSLATORS: (aspect ratio policy: automatically select the best aspect ratio mode)
-			policy2_choices.update({"auto": _("Auto")})
-		f.close()
+		with open("/proc/stb/video/policy2_choices") as f:
+			if "full" in f.read():
+				# TRANSLATORS: (aspect ratio policy: display as fullscreen, even if the content aspect ratio does not match the screen ratio)
+				policy2_choices.update({"full": _("Full screen")})
+			elif "auto" in f.read():
+				# TRANSLATORS: (aspect ratio policy: automatically select the best aspect ratio mode)
+				policy2_choices.update({"auto": _("Auto")})
 	config.av.policy_169 = ConfigSelection(choices=policy2_choices, default = "letterbox")
 	policy_choices = {
 	# TRANSLATORS: (aspect ratio policy: black bars on left/right) in doubt, keep english term.
@@ -120,17 +116,16 @@ def InitAVSwitch():
 	# TRANSLATORS: (aspect ratio policy: scale as close to fullscreen as possible)
 	"scale": _("Just scale")}
 	if fileExists("/proc/stb/video/policy_choices"):
-		f = open("/proc/stb/video/policy_choices")
-		if "nonlinear" in f.read():
-			# TRANSLATORS: (aspect ratio policy: display as fullscreen, with stretching the left/right)
-			policy_choices.update({"nonlinear": _("Nonlinear")})
-		elif "full" in f.read():
-			# TRANSLATORS: (aspect ratio policy: display as fullscreen, even if the content aspect ratio does not match the screen ratio)
-			policy_choices.update({"full": _("Full screen")})
-		elif "auto" in f.read():
-			# TRANSLATORS: (aspect ratio policy: automatically select the best aspect ratio mode)
-			policy_choices.update({"auto": _("Auto")})
-		f.close()
+		with open("/proc/stb/video/policy_choices") as f:
+			if "nonlinear" in f.read():
+				# TRANSLATORS: (aspect ratio policy: display as fullscreen, with stretching the left/right)
+				policy_choices.update({"nonlinear": _("Nonlinear")})
+			elif "full" in f.read():
+				# TRANSLATORS: (aspect ratio policy: display as fullscreen, even if the content aspect ratio does not match the screen ratio)
+				policy_choices.update({"full": _("Full screen")})
+			elif "auto" in f.read():
+				# TRANSLATORS: (aspect ratio policy: automatically select the best aspect ratio mode)
+				policy_choices.update({"auto": _("Auto")})
 	config.av.policy_43 = ConfigSelection(choices=policy_choices, default = "pillarbox")
 	config.av.tvsystem = ConfigSelection(choices = {"pal": _("PAL"), "ntsc": _("NTSC"), "multinorm": _("multinorm")}, default="pal")
 	config.av.wss = ConfigEnableDisable(default = True)
